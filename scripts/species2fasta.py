@@ -4,7 +4,15 @@ import sys
 import urllib.request
 import hashlib
 import pandas as pd
-#import pyopenms as oms
+import argparse 
+
+# receive list of samples
+parser = argparse.ArgumentParser()
+# --input samplefile --output 
+parser.add_argument("-c", "--conversion", help="conversion_file")
+parser.add_argument("-m", "--mztab", help="mztab_file")
+
+args = parser.parse_args()
 
 # this file requires a conversion table from NCBI tax ID to uniprot
 # input is a mzTab file, as a loop, all species will be extracted, converted to uniprot syntax, and URLs will be generated.
@@ -13,23 +21,20 @@ import pandas as pd
 
 print(sys.version)
 
-conversion_file = '/Users/jbeje/cfb/nf/getstarted/temp/library/conversion.tsv'
+conversion_file = args.conversion
 conversion_df = pd.read_csv( conversion_file ,sep="\t",dtype=str)
 
-
-
-#testmztab = "/Users/jbeje/cfb/mzTab/examples/1_0-Proteomics-Release/lipidomics-HFD-LD-study-TG.mzTab"
-testmztab = "/Users/jbeje/cfb/mzTab/examples/1_0-Proteomics-Release/PRIDE_Exp_Complete_Ac_1643.xml-mztab.txt"
+mztab = args.mztab
 if len(sys.argv) > 1:
-    testmztab = sys.argv[1]
+    mztab = sys.argv[1]
 #tax2up_dict = conversion_df.to_dict(orient='records' ??? 'Tax_ID' , 'Proteome_ID')
 
 # import mzTab file elements, or utilize library to retreive values
 # pyOpenMS ?
 
-print(testmztab)
+print(mztab)
 specieslist = []
-with open(testmztab, encoding="utf-8") as f:
+with open(mztab, encoding="utf-8") as f:
     checkinfo = False
     for line in f:
         if line[0:3] == 'MTD':
@@ -62,5 +67,5 @@ for taxid in specieslist:
     uniprotlist.append(upid)
     downloadlink = ''.join([baseurl,upid,'%29%29'])
     proteomelink.append(downloadlink)
-    fastaname = ''.join(['/Users/jbeje/cfb/nf/getstarted/temp/library/proteomes/proteome_',taxid,'.fasta.gz'])
+    fastaname = ''.join(['./library/proteomes/proteome_',taxid,'.fasta.gz'])
     urllib.request.urlretrieve(downloadlink, fastaname)
