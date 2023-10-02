@@ -24,7 +24,7 @@ sampleout  = args.output # if defined
 replicate_conditions = ["en","to","tre","nul"]
 replicate_conditions = args.conditions
 
-# pseduo code: scale up the conditions to full sample list
+# pseudo code: scale up the conditions to full sample list
 
 # get sample count 
 dfxl = pd.read_excel(samplefile, engine='openpyxl', sheet_name='samples')
