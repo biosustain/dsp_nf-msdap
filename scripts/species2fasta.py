@@ -12,6 +12,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--conversion", help="conversion_file")
 parser.add_argument("-m", "--mztab", help="mztab_file")
 
+# organism as command line parameter
+# Get all samples and groups from cmd or input file 
 args = parser.parse_args()
 
 # this file requires a conversion table from NCBI tax ID to uniprot
