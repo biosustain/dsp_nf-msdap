@@ -54,6 +54,7 @@ log.info """\
 //  proteomediscoverer  /  import_dataset_proteomediscoverer_txt (parse into R script)
 
 
+
 /*
 if(${params.format} == 'spectronaut') {
 
@@ -69,23 +70,61 @@ if(${params.format} == 'spectronaut') {
 // possibly forward parameter to python script which will take care of the input parsing 
 
 
+process getConversionTable {
+  input:
+    path library
+  output:
+  stdout
+  script:
+  """
+  python3 ~/cfb/dsp_nf-msdap/scripts/get_conversion_table.py --library $library
+  """
+}
+
+/*
 process getFasta {
   output:
   stdout
   script:
   """
-  python3 ~/cfb/dsp_nf-msdap/scripts/get_conversion_table.py --library ${params.library}
   python3 ~/cfb/dsp_nf-msdap/scripts/taxid2fasta.py --library ${params.library} --taxid ${params.taxid}
-  Rscript ~/cfb/dsp_nf-msdap/scripts/dataMakeReportTemplate_1.R ${params.file} ${params.library}/proteome_${params.taxid}.fasta.gz
-  python3 ~/cfb/dsp_nf-msdap/scripts/modxlsx.py --input ./samples.xslx --replicate "${params.groups}"
-  Rscript ~/cfb/dsp_nf-msdap/scripts/dataMakeReportTemplate_2.R ${params.file} ${params.library}/proteome_${params.taxid}.fasta.gz
   """
 }
 
+process genXlsx {
+  output:
+  stdout
+  script:
+  """
+  Rscript ~/cfb/dsp_nf-msdap/scripts/dataMakeReportTemplate_1.R ${params.file} ${params.library}/proteome_${params.taxid}.fasta.gz
+  """
+}
+
+process modXlsx {
+  output:
+  stdout
+  script:
+  """
+  python3 ~/cfb/dsp_nf-msdap/scripts/modxlsx.py --input ./samples.xslx --replicate "${params.groups}"
+  """
+}
+
+process launchMSDAP {
+  output:
+  stdout
+  script:
+  """
+  Rscript ~/cfb/dsp_nf-msdap/scripts/dataMakeReportTemplate_2.R ${params.file} ${params.library}/proteome_${params.taxid}.fasta.gz
+  """
+}
+*/
 // Initiation
 //channel 1
 workflow{
-  Channel
-  getFasta()
+  getConversionTable()
+  //getFasta()
+  //genXlsx()
+  //modXlsx()
+  //launchMSDAP()
 }
 
