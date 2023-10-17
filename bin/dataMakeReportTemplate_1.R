@@ -1,3 +1,5 @@
+#!/usr/local/bin/Rscript
+
 ## setup https://github.com/ftwkoopmans/msdap/blob/master/doc/userguide.md#spectronaut
 # we are testing the functionality of processing spectronaut data
 

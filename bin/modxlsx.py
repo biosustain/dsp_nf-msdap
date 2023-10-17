@@ -1,4 +1,5 @@
-#/usr/bin/env python3
+#!/usr/bin/env python3
+
 import pandas as pd
 import argparse 
 
@@ -12,8 +13,8 @@ parser.add_argument("-r", "--replicate", help="full ordered list of all replicat
 args = parser.parse_args()
 
 # demo sample
-samplefile = './samples.xlsx'
-#samplefile = args.input
+sampleout = './samples.xlsx'
+samplefile = args.input
 
 # demo list
 #replicate_conditions = ["en","to","tre","nul"]
@@ -33,5 +34,5 @@ replicate_conditions_list = args.replicate.split(" ")
 dfxl['group'] = replicate_conditions_list 
 
 
-dfxl.to_excel(samplefile, sheet_name='samples')
+dfxl.to_excel(sampleout, sheet_name='samples')
 

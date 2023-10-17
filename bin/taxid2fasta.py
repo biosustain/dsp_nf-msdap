@@ -1,4 +1,4 @@
-#/usr/bin/env python3
+#!/usr/bin/env python3
 
 import sys
 import urllib.request
@@ -22,7 +22,7 @@ args = parser.parse_args()
 # the fasta will be filtered to also appear in a SwissProt only version.
 
 library_dir = args.library
-conversion_file = ''.join([library_dir,'/conversion.tsv'])
+conversion_file = 'conversion.tsv'
 conversion_df = pd.read_csv( conversion_file ,sep="\t",dtype=str)
 
 baseurl = 'https://rest.uniprot.org/uniprotkb/stream?compressed=true&format=fasta&includeIsoform=true&query=%28%28proteome%3A'
@@ -38,5 +38,5 @@ uniprot = conversion_df.loc[conversion_df['Tax_ID'] == taxid, 'Proteome_ID']
 print(uniprot)
 upid = uniprot.item()
 downloadlink = ''.join([baseurl,upid,'%29%29'])
-fastaname = ''.join(['./library/proteome_',taxid,'.fasta.gz'])
+fastaname = ''.join(['proteome_',taxid,'.fasta.gz'])
 urllib.request.urlretrieve(downloadlink, fastaname)

@@ -71,60 +71,76 @@ if(${params.format} == 'spectronaut') {
 
 
 process getConversionTable {
-  input:
-    path library
   output:
-  stdout
+    path 'conversion.tsv' 
   script:
   """
-  python3 ~/cfb/dsp_nf-msdap/scripts/get_conversion_table.py --library $library
+  get_conversion_table.py --library .
   """
 }
 
-/*
+
 process getFasta {
+  input:
+    path conversion
   output:
-  stdout
+    path '*.fasta.gz'
   script:
   """
-  python3 ~/cfb/dsp_nf-msdap/scripts/taxid2fasta.py --library ${params.library} --taxid ${params.taxid}
+  taxid2fasta.py --library $conversion --taxid ${params.taxid}
   """
 }
+
+// add additional Step to concatinate all fasta if more than one, then just input a single fastafile with all the needed proteomes
+
 
 process genXlsx {
+  container 'ftwkoopmans/msdap:1.0.6'
+  input:
+    path fastafiles
+    path experiment
   output:
-  stdout
+    path 'samples.xlsx'
   script:
   """
-  Rscript ~/cfb/dsp_nf-msdap/scripts/dataMakeReportTemplate_1.R ${params.file} ${params.library}/proteome_${params.taxid}.fasta.gz
+  dataMakeReportTemplate_1.R $experiment $fastafiles
   """
 }
 
 process modXlsx {
+  input:
+    path samples, name: 'sample.input.xlsx'
   output:
-  stdout
+    path 'samples.xlsx'
   script:
   """
-  python3 ~/cfb/dsp_nf-msdap/scripts/modxlsx.py --input ./samples.xslx --replicate "${params.groups}"
+  modxlsx.py --input sample.input.xlsx --replicate "${params.groups}"
   """
 }
 
 process launchMSDAP {
+  container 'ftwkoopmans/msdap:1.0.6'
+  input:
+    path fastafiles
+    path experiment
+    path 'samples.xlsx' 
   output:
-  stdout
+    stdout
   script:
   """
-  Rscript ~/cfb/dsp_nf-msdap/scripts/dataMakeReportTemplate_2.R ${params.file} ${params.library}/proteome_${params.taxid}.fasta.gz
+  dataMakeReportTemplate_2.R $experiment $fastafiles
   """
 }
-*/
+
+
 // Initiation
-//channel 1
+
 workflow{
   getConversionTable()
-  //getFasta()
-  //genXlsx()
-  //modXlsx()
-  //launchMSDAP()
-}
+  getFasta(getConversionTable.out)
+  channel.of(params.file).set{ experiment }
+  genXlsx(getFasta.out, experiment)
+  modXlsx(genXlsx.out)
+  launchMSDAP(getFasta.out, experiment, modXlsx.out)
+}     
 

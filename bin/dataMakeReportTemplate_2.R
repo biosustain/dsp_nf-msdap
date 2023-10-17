@@ -1,3 +1,5 @@
+#!/usr/local/bin/Rscript
+
 ## setup https://github.com/ftwkoopmans/msdap/blob/master/doc/userguide.md#spectronaut
 # we are testing the functionality of processing spectronaut data
 
@@ -7,7 +9,7 @@
 ######### Set working directory and input file linking ########################
 ###############################################################################
 
-setwd('./') # Set working directory and execute to have Rstudio autocomplete
+#setwd('./') # Set working directory and execute to have Rstudio autocomplete
 
 ###############################################################################
 arg<-commandArgs(TRUE)
