@@ -14,19 +14,20 @@ to generate a pdf report with MS-DAP, the following are needed:
 The enviromnent running this script will need following dependencies:
 
 * Nextflow
-* R installation with MS-DAP
+* Docker with min 16 gb of ram for the R installation with MS-DAP
 * python3 with pandas
 
 
 Example to initiate this pipeline (9606 indicates that proteome for human will be downloaded):
 
-nextflow dsp_nf-msdap/flow_main.nf \
+```
+nextflow run dsp_nf-msdap/flow_main.nf \
 --format spectronaut \
 --file spectronaut_out_report.csv \
 --taxid 9606 \
 --library ./library \
 -params-file ./params.yaml
-
+```
 
 
 content of params.yaml:

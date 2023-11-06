@@ -29,7 +29,9 @@
 // local library dir
 
 
-log.info """\
+params.outdir = "results"
+
+log.info """
               M S - D A P  W R A P P E R
           ==================================
           github.com/biosustain/dsp_nf-msdap
@@ -79,7 +81,8 @@ process getConversionTable {
   """
 }
 
-
+// run this for each taxid provided
+// will be module instead of process ???
 process getFasta {
   input:
     path conversion
@@ -91,8 +94,23 @@ process getFasta {
   """
 }
 
+//inpput from getFasta AND from user supplied local (or remote??) fasta file
+process mergeFasta {
+  input:
+    path '*.fasta.gz'
+  output:
+    path '*.fasta.gz'
+  script:
+  """
+  concatFasta.py 
+  """
+}
+
+// add custom fasta files here
+
 // add additional Step to concatinate all fasta if more than one, then just input a single fastafile with all the needed proteomes
 
+// allow different MS format to be reflected in different R script
 
 process genXlsx {
   container 'ftwkoopmans/msdap:1.0.6'
@@ -120,24 +138,32 @@ process modXlsx {
 
 process launchMSDAP {
   container 'ftwkoopmans/msdap:1.0.6'
+  publishDir params.outdir, mode: "copy", overwrite: false  
   input:
     path fastafiles
     path experiment
     path 'samples.xlsx' 
   output:
-    stdout
+    path 'msdap_results/*'
   script:
   """
   dataMakeReportTemplate_2.R $experiment $fastafiles
   """
 }
+// include a way to parse contrast list into docker 
 
+/*
+process setContrasts {
+  // default is set up all combinations, alternaively just use predefined list
+}
+*/
 
 // Initiation
 
 workflow{
   getConversionTable()
   getFasta(getConversionTable.out)
+  //mergeFasta
   channel.of(params.file).set{ experiment }
   genXlsx(getFasta.out, experiment)
   modXlsx(genXlsx.out)

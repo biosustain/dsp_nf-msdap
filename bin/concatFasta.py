@@ -5,7 +5,7 @@
 #### cat file1.gz file2.gz file3.gz > allfiles.gz 
 
 
-
+### read in user fasta files along with all downloaded proteome fasta files
 
 
 with open(..., 'wb') as wfp:

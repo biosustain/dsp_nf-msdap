@@ -28,6 +28,9 @@ fastafiles = arg[2]
 ###############################################################################
 
 
+
+#### parse contrast list in some way as param 3
+
 library(msdap)
 
 
@@ -63,7 +66,7 @@ dataset = import_sample_metadata(dataset, "samples.xlsx")
 
 dataset = setup_contrasts(dataset, 
                           contrast_list = list(
-                            c("a","b")
+                            c("a","d")
                             )
 )
 
@@ -93,7 +96,7 @@ dataset = analysis_quickstart(
   filter_fraction_quant = 0.75,  # analogous for quantitative values
   filter_by_contrast = TRUE,     # only relevant if dataset has 3+ groups. For DEA at each contrast, filters and normalization are applied on the subset of relevant samples within the contrast for efficiency, see further MS-DAP manuscript. Set to FALSE to disable and use traditional "global filtering" (filters are applied to all sample groups, same data table used in all statistics)
   norm_algorithm = c("vsn", "modebetween_protein"), # normalization; first vsn, then modebetween on protein-level (applied sequentially so the MS-DAP modebetween algorithm corrects scaling/balance between-sample-groups)
-  dea_algorithm = c("msempire", "msqrob"), # statistics; apply multiple methods in parallel/independently
+  dea_algorithm = c("msempire"), # statistics; apply multiple methods in parallel/independently
   dea_qvalue_threshold = 0.01,                      # threshold for significance of adjusted p-values in figures and output tables
   dea_log2foldchange_threshold = NA,                # threshold for significance of log2 foldchanges. 0 = disable, NA = automatically infer through bootstrapping
   output_qc_report = TRUE,                          # optionally, set to FALSE to skip the QC report (not recommended for first-time use)
