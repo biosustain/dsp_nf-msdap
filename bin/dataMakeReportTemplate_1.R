@@ -9,7 +9,7 @@
 ######### Set working directory and input file linking ########################
 ###############################################################################
 
-setwd('./') # Set working directory and execute to have Rstudio autocomplete
+#setwd('./') # Set working directory and execute to have Rstudio autocomplete
 
 ###############################################################################
 arg<-commandArgs(TRUE)
@@ -23,12 +23,15 @@ filenamepath = arg[1] #  link the output file
 
 
 # set command line param 2
-fastafiles = arg[2]
+#fastafiles = arg[2]
 #c('','')
 ###############################################################################
 
-
+print("print test 1")
+message("message test 1")
 library(msdap)
+print("print test2")
+message("message test 2")
 
 
 dataset <- import_dataset_spectronaut(
@@ -43,10 +46,10 @@ dataset <- import_dataset_spectronaut(
 
 
 # change to overwrite / append
-dataset <- import_fasta(
-  dataset,
-  files = fastafiles
-)
+#dataset <- import_fasta(
+#  dataset,
+#  files = fastafiles
+#)
 
 # optional protein removal
 ##### Placeholder for adding this step

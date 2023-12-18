@@ -73,6 +73,7 @@ if(${params.format} == 'spectronaut') {
 
 
 process getConversionTable {
+  container 'pandas/pandas:pip-all'
   output:
     path 'conversion.tsv' 
   script:
@@ -84,6 +85,7 @@ process getConversionTable {
 // run this for each taxid provided
 // will be module instead of process ???
 process getFasta {
+  container 'pandas/pandas:pip-all'
   input:
     path conversion
   output:
@@ -94,8 +96,9 @@ process getFasta {
   """
 }
 
-//inpput from getFasta AND from user supplied local (or remote??) fasta file
+//input from getFasta AND from user supplied local (or remote??) fasta file
 process mergeFasta {
+  container 'pandas/pandas:pip-all'
   input:
     path '*.fasta.gz'
   output:
@@ -115,17 +118,17 @@ process mergeFasta {
 process genXlsx {
   container 'ftwkoopmans/msdap:1.0.6'
   input:
-    path fastafiles
     path experiment
   output:
     path 'samples.xlsx'
   script:
   """
-  dataMakeReportTemplate_1.R $experiment $fastafiles
+  dataMakeReportTemplate_1.R $experiment 
   """
 }
 
 process modXlsx {
+  container 'pandas/pandas:pip-all'
   input:
     path samples, name: 'sample.input.xlsx'
   output:
@@ -165,7 +168,7 @@ workflow{
   getFasta(getConversionTable.out)
   //mergeFasta
   channel.of(params.file).set{ experiment }
-  genXlsx(getFasta.out, experiment)
+  genXlsx(experiment)
   modXlsx(genXlsx.out)
   launchMSDAP(getFasta.out, experiment, modXlsx.out)
 }     
