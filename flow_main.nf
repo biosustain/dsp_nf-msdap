@@ -29,7 +29,7 @@ process getFasta {
 }
 
 process generateSamples {
-  container 'albsantosdel/test-msdap:latest'
+  container 'ftwkoopmans/msdap:1.0.6'
   input:
     path experiment
   output:
@@ -53,7 +53,7 @@ process addConditions {
 }
 
 process runMSDAP {
-  container 'albsantosdel/test-msdap:latest'
+  container 'ftwkoopmans/msdap:1.0.6'
   publishDir params.outdir, mode: "copy", overwrite: false  
   input:
     path fastafiles
