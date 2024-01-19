@@ -1,6 +1,7 @@
 #!/usr/bin/env nextflow
 
 params.outdir = "results"
+params.file = "$projectDir/data/${params.file}"
 
 log.info """
               M S - D A P  W R A P P E R
