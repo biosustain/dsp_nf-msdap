@@ -15,9 +15,6 @@ log.info """
           groups     : ${params.groups}
           """
 
-params.in = "$HOME/data/sample_metadata.xlsx"
-channel.of(params.in).set{ experiment}
-
 process getFasta {
   container 'pandas/pandas:pip-all'
   output:
