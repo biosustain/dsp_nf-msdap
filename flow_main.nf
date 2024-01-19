@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 params.outdir = "results"
-params.file = "$projectDir/data/${params.file}"
+experiment = "$projectDir/data/${params.file}"
 
 log.info """
               M S - D A P  W R A P P E R
@@ -9,7 +9,7 @@ log.info """
           github.com/biosustain/dsp_nf-msdap
           ----------------------------------
           MS format  : ${params.format}
-          experiment : ${params.file}
+          experiment : $experiment
           library    : ${params.library}
           force      : ${params.force.download}
           organism   : ${params.taxid}
@@ -67,7 +67,7 @@ process runMSDAP {
 
 workflow {
     getFasta()
-    channel.of(params.file).set{experiment}
+    //channel.of(params.file).set{experiment}
     generateSamples(experiment)
     addConditions(generateSamples.out)
     runMSDAP(getFasta.out, experiment, addConditions.out)
