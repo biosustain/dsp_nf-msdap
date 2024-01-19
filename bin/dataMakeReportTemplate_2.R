@@ -12,6 +12,9 @@
 
 #@DTU Biosustain
 
+library("R.cache")
+setCacheRootPath("/root")
+
 arg <- commandArgs(TRUE)
 filenamepath <- arg[1] #  link the output file
 fastafiles <- arg[2]
