@@ -2,6 +2,7 @@
 
 params.outdir = "results"
 experiment = "$projectDir/data/${params.file}"
+groups_file = "$projectDir/data/${params.groups}"
 
 log.info """
               M S - D A P  W R A P P E R
@@ -13,7 +14,7 @@ log.info """
           library    : ${params.library}
           force      : ${params.force.download}
           organism   : ${params.taxid}
-          groups     : ${params.groups}
+          groups     : $groups_file
           """
 
 process getFasta {
@@ -27,7 +28,7 @@ process getFasta {
 }
 
 process generateSamples {
-  container 'ftwkoopmans/msdap:1.0.6'
+  container 'albsantosdel/test-msdap:latest'
   input:
     path experiment
   output:
@@ -42,16 +43,17 @@ process addConditions {
   container 'pandas/pandas:pip-all'
   input:
     path samples, name: 'sample.input.xlsx'
+    path groups_file
   output:
     path 'samples.xlsx'
   script:
   """
-  modxlsx.py --input sample.input.xlsx --groups "${params.groups}"
+  modxlsx.py --input sample.input.xlsx --groups $groups_file
   """
 }
 
 process runMSDAP {
-  container 'ftwkoopmans/msdap:1.0.6'
+  container 'albsantosdel/test-msdap:latest'
   publishDir params.outdir, mode: "copy", overwrite: false  
   input:
     path fastafiles
@@ -69,6 +71,6 @@ workflow {
     getFasta()
     //channel.of(params.file).set{experiment}
     generateSamples(experiment)
-    addConditions(generateSamples.out)
+    addConditions(generateSamples.out, groups_file)
     runMSDAP(getFasta.out, experiment, addConditions.out)
 }
