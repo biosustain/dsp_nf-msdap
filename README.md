@@ -21,26 +21,19 @@ The enviromnent running this script will need following dependencies:
 Example to initiate this pipeline (9606 indicates that proteome for human will be downloaded):
 
 ```
-nextflow run dsp_nf-msdap/flow_main.nf \
---format spectronaut \
---file spectronaut_out_report.csv \
---taxid 9606 \
---library ./library \
--params-file ./params.yaml
+./nextflow run flow_main.nf ## nexflow workflow file
+--library reference ## Directory where the reference proteomes and fasta files should be found/downloaded
+--force.download False ## Whether to force download of fasta file
+--taxid 9606 ## NCBI Taxonomic identifier of studied organism
+--file [full_path]/data/20230418_151533_20230404_1590_DIA_Report.csv ## Processed proteomics file (e.g., output spectronaut)
+--groups [full_path]/data/groups.xlsx ## File specifying conditions to be contrasted
+--format spectronaut ## Format of the proteomics file
 ```
 
-
-content of params.yaml:
+content of groups.xlsx:
 ```
-groups:
-  condition_a
-  condition_a
-  condition_a
-  condition_b
-  condition_b
-  condition_b
+sample_id / group
 ```
-
 
 
 Attributions: 
