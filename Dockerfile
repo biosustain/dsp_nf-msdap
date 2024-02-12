@@ -22,7 +22,7 @@ RUN R -e "tinytex::tlmgr_install(c('ifxetex', 'ifluatex', 'oberdiek', 'graphics'
 RUN R -e "install.packages(c('archive', 'styler', 'formatR', 'pdftools', 'matrixStats', 'lme4', 'nloptr', 'pROC', 'iq', 'doParallel', 'foreach', 'missForest', 'ggpubr', 'ggrepel', 'patchwork', 'openxlsx'), repos = 'https://cloud.r-project.org')"
 
 # BioConductor R packages
-RUN R -e "BiocManager::install(c('ProtGenerics', 'MSnbase', 'limma', 'vsn', 'pcaMethods', 'DEqMS', 'BiocParallel', 'variancePartition'), update=F, ask=F)"
+RUN R -e "BiocManager::install(c('ProtGenerics', 'MSnbase', 'limma', 'vsn', 'pcaMethods', 'DEqMS', 'BiocParallel', 'variancePartition', 'argparse'), update=F, ask=F)"
 
 # GitHub R packages
 RUN R -e "devtools::install_github('zimmerlab/MS-EmpiRe', upgrade = 'never')"
@@ -35,5 +35,7 @@ repos = 'https://cloud.r-project.org')"
 ### MS-DAP
 # From github
 RUN R -e "devtools::install_github('ftwkoopmans/msdap', upgrade = 'never')"
+
+RUN chmod 777 /home
 
 RUN echo "Done"
