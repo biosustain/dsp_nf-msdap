@@ -25,7 +25,7 @@ Example to initiate this pipeline (9606 indicates that proteome for human will b
 --library reference ## Directory where the reference proteomes and fasta files should be found/downloaded
 --force.download False ## Whether to force download of fasta file
 --taxid 9606 ## NCBI Taxonomic identifier of studied organism
---file [full_path]/data/20230418_151533_20230404_1590_DIA_Report.csv ## Processed proteomics file (e.g., output spectronaut)
+--file [full_path]/data/DIA_Report.csv ## Processed proteomics file (e.g., output spectronaut)
 --groups [full_path]/data/groups.xlsx ## File specifying conditions to be contrasted
 --format spectronaut ## Format of the proteomics file
 ```
