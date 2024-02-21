@@ -67,10 +67,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     # --input samplefile --output 
     parser.add_argument("-i", "--input", help="sample.xlsx input file to be modified")
-    parser.add_argument("-g", "--groups_file", help="mapping of samples and the group they belong to")
+    parser.add_argument("-g", "--groups", help="mapping of samples and the group they belong to")
     args = parser.parse_args()
     sample_file = args.input
-    groups_file = args.groups_file
+    groups_file = args.groups
 
     samples =  read_sample_file(sample_file=sample_file)
     groups = read_groups_file(groups_file=groups_file)
