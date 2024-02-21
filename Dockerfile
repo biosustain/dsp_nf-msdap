@@ -16,11 +16,26 @@ RUN apt-get update && \
   git \
   cmake
 
-RUN R -e "install.packages(c('devtools', 'tidyverse', 'tinytex', 'BiocManager'), repos='https://cloud.r-project.org')"
-RUN R - e "tinytex::install_tinytex()"
-# On Windows; say 'no' to optionally compile packages and during TinyTex installation you may see 2 popups; these can be dismissed
-RUN R -e "BiocManager::install(c('ProtGenerics', 'MSnbase', 'limma'), update=T, ask=F)"
-RUN R -e "Sys.setenv(R_REMOTES_NO_ERRORS_FROM_WARNINGS='true')"
+RUN R -e "tinytex::tlmgr_install(c('ifxetex', 'ifluatex', 'oberdiek', 'graphics', 'graphics-cfg', 'graphics-def', 'amsmath', 'latex-amsmath-dev', 'euenc', 'fontspec', 'tipa', 'unicode-math', 'xunicode', 'ltxcmds', 'kvsetkeys', 'etoolbox', 'xcolor', 'geometry', 'fancyvrb', 'framed', 'bigintcalc', 'bitset', 'etexcmds', 'gettitlestring', 'hycolor', 'hyperref', 'intcalc', 'kvdefinekeys', 'letltxmacro', 'pdfescape', 'refcount', 'rerunfilecheck', 'stringenc', 'uniquecounter', 'zapfding'))"
+
+# CRAN R packages we need that aren't in this rocker/verse
+RUN R -e "install.packages(c('archive', 'styler', 'formatR', 'pdftools', 'matrixStats', 'lme4', 'nloptr', 'pROC', 'iq', 'doParallel', 'foreach', 'missForest', 'ggpubr', 'ggrepel', 'patchwork', 'openxlsx'), repos = 'https://cloud.r-project.org')"
+
+# BioConductor R packages
+RUN R -e "BiocManager::install(c('ProtGenerics', 'MSnbase', 'limma', 'vsn', 'pcaMethods', 'DEqMS', 'BiocParallel', 'variancePartition', 'argparse'), update=F, ask=F)"
+
+# GitHub R packages
+RUN R -e "devtools::install_github('zimmerlab/MS-EmpiRe', upgrade = 'never')"
+RUN R -e "devtools::install_github('vdemichev/diann-rpackage', upgrade = 'never')"
+
+# 'variancePartition' package now requires 'remaCor' package version >= 0.0.11
+RUN R -e "devtools::install_version('remaCor', '0.0.16', upgrade = 'never', \
+repos = 'https://cloud.r-project.org')"
+
+### MS-DAP
+# From github
 RUN R -e "devtools::install_github('ftwkoopmans/msdap', upgrade = 'never')"
+
+RUN chmod 777 /home
 
 RUN echo "Done"
