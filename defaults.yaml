@@ -1,0 +1,44 @@
+#this file contains default values for the pipeline
+
+# global nextflow parameters
+force_download: false
+
+# R specific
+confidence_threshold: 0.01
+use_normalized_intensities: FALSE
+use_irt: TRUE
+return_decoys: FALSE
+remove_shared_spectronaut_proteingroups: FALSE
+do_plot: TRUE
+remove_lowconf: TRUE
+one_psm_per_precursor: NA
+collapse_peptide_by: sequence_modified
+filter_min_detect: 3
+filter_min_quant: 3
+filter_fraction_detect: 0.75
+filter_fraction_quant: 0.75
+filter_by_contrast: TRUE
+norm_algorithm_vsn: TRUE
+norm_algorithm_vwmb: FALSE
+norm_algorithm_modebetween_protein: TRUE
+norm_algorithm_modebetween: FALSE
+norm_algorithm_rlr: FALSE
+norm_algorithm_msempire: FALSE
+norm_algorithm_by_group: FALSE
+norm_algorithm_all_group: TRUE
+norm_algorithm_by_contrast: FALSE
+rollup_algorithm: NA
+dea_algorithm_deqms: TRUE
+dea_algorithm_msempire: TRUE
+dea_algorithm_msqrob: TRUE
+dea_algorithm_ebayes: FALSE
+dea_algorithm_msqrobsum: FALSE
+dea_qval_signif: 0.05
+dea_fc_signif: NA
+dea_qvalue_threshold: 0.01
+dea_log2foldchange_threshold: NA
+output_qc_report: TRUE
+output_abundance_tables: TRUE
+output_dir: msdap_results
+output_within_timestamped_subdirectory: TRUE
+
