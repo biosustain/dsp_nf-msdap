@@ -33,9 +33,15 @@ RUN R -e "devtools::install_version('remaCor', '0.0.16', upgrade = 'never', \
 repos = 'https://cloud.r-project.org')"
 
 ### MS-DAP
-# From github
-RUN R -e "devtools::install_github('ftwkoopmans/msdap', upgrade = 'never')"
+# From github 
+#RUN R -e "devtools::install_github('ftwkoopmans/msdap', upgrade = 'never')"
+# get modified functions (i.e. export of interactive plots)
+RUN R -e "devtools::install_github('biosustain/msdap', upgrade = 'never')"
 
-RUN chmod 777 /home
+# for nextflow pipeline 
+RUN R -e "install.packages(c('argparse', 'plotly', 'listviewer', 'pheatmap', 'htmlwidgets'), repos = 'https://cloud.r-project.org')"
+
+# for compitability with Azure Batch processing
+RUN chmod -R 777 /home
 
 RUN echo "Done"

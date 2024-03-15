@@ -187,6 +187,8 @@ dataset <- import_fasta(
 
 dataset <- import_sample_metadata(dataset, samplesfile)
 
+
+# contrasts fails if only one group, it may not be relevant to run msdap with less than to groups anyways.
 exp_design <- read_excel(samplesfile)
 groups <- unique(as.list(exp_design$group))
 combinations <- t(combn(groups, 2))
@@ -208,7 +210,10 @@ filter_fraction_detect = args$filter_fraction_detect ,  # 0, # each peptide must
   output_qc_report = args$output_qc_report , #   TRUE, # optionally, set to FALSE to skip the QC report (not recommended for first-time use)
   output_abundance_tables = args$output_abundance_tables , #  TRUE, # optionally, set to FALSE to skip the peptide- and protein-abundance table output files
   output_dir = args$output_dir  , #  "msdap_results", # output directory, here set to "msdap_results" within your working directory. Alternatively provide a full path, eg; output_dir="C:/path/to/myproject",
-  output_within_timestamped_subdirectory = args$output_within_timestamped_subdirectory)  # TRUE
+  output_within_timestamped_subdirectory = args$output_within_timestamped_subdirectory ,  # TRUE
+  dump_all_data = TRUE 
+  )
+
 
 print_dataset_summary(dataset)
 
