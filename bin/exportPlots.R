@@ -36,10 +36,12 @@ print("loaded dataset")
 step01 <- dataset$plots
 step02 <- step01$ggplot_cscore_histograms
 
-step03 <- step02[[1]]
-step04 <- step03$plot_env
-step05 <- step04$p
-step06 <- ggplotly(step05)
-step07 <- plotly_json(step06, FALSE)
-htmlwidgets::saveWidget(step06, "figure1.html")
-write(step07, 'plot1.json')
+for (i in seq_along(ggplot_cscore_histograms)){
+    step03 <- step02[[i]]
+    step04 <- step03$plot_env
+    step05 <- step04$p
+    step06 <- ggplotly(step05)
+    step07 <- plotly_json(step06, FALSE)
+    htmlwidgets::saveWidget(step06, "figure_c_", i, ".html")
+    write(step07, 'plot_c_', i, '.json')
+}
