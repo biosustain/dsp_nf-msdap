@@ -197,7 +197,7 @@ combinations <- t(combn(groups, 2))
 contrasts <- lapply(1:dim(combinations)[1], function(x) c(unlist(t(combinations[x,])[1, ])))
 
 dataset <- setup_contrasts(dataset, contrast_list = contrasts)
-print("generating dataset again ? do ftthee j")
+print("generating dataset again ")
 
 dataset <- analysis_quickstart(dataset,
   filter_min_detect = args$filter_min_detect , # 0, # each peptide must have a good confidence score in at least N samples per group
