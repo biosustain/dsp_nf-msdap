@@ -28,7 +28,14 @@ profiles {
         accountName = azure_config["batchAccountName"]
         accountKey = azure_config["batchAccountKey"]
         autoPoolMode = true
-	deletePoolOnCompletion = true
+        allowPoolCreation = true
+        pools {
+          auto {
+              autoScale = true
+              vmType = 'Standard_d4_v3'
+              maxVmCount = 10
+          }
+        }
       }
     }
   }
