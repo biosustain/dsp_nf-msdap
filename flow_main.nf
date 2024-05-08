@@ -91,7 +91,8 @@ process addConditions {
 }
 
 process runMSDAP {
-  container 'albsantosdel/test-msdap:argparse'
+//  container 'albsantosdel/test-msdap:argparse'
+  container 'dsp_nf-msdap:latest'
   publishDir params.outdir, mode: "copy", overwrite: true  
   input:
     path fastafiles
@@ -143,6 +144,19 @@ process runMSDAP {
   """
 }
 
+process exportPlots{
+  container 'dsp_nf-msdap:latest'
+  input:
+    path 'dataset.RData'
+  output:
+    //path 'plot.json'
+    //path 'msdap_plots/*'
+  script:
+  """
+  exportPlots.R
+  """
+}
+
 workflow {
     getFasta()
     channel.of(params.file).set{experiment}
@@ -150,5 +164,7 @@ workflow {
     channel.of(params.groups).set{groups_file}
     addConditions(generateSamples.out, groups_file)
     runMSDAP(getFasta.out, experiment, addConditions.out)
+    // channel.from(runMSDAP.out).collectFile(name = 'dataset.RData').set{dataset}
+    // exportPlots(runMSDAP.out)
 }
 
