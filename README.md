@@ -34,7 +34,7 @@ content of groups.xlsx:
 ```
 sample_id / group
 ```
-
+![metromap](metromap.png)
 
 Attributions: 
 Metromap adapted in part with remixed components from nf-co.re/sarek 
