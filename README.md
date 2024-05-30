@@ -11,11 +11,8 @@ to generate a pdf report with MS-DAP, the following are needed:
 * Fasta file with proteome / TAXID for species to autodownload from Uniprot.
 * ordered list of replicate group names.
 
-The enviromnent running this script will need following dependencies:
-
-* Nextflow
-* Docker with min 16 gb of ram for the R installation with MS-DAP
-* python3 with pandas
+The enviromnent running this script will be taken care of by docker containers.
+Nextflow is required for running the pipeline which is designed to run locally in docker or remote on azure batch.
 
 
 Example to initiate this pipeline (9606 indicates that proteome for human will be downloaded):
