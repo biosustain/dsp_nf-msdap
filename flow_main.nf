@@ -92,7 +92,7 @@ process addConditions {
 
 process runMSDAP {
 //  container 'albsantosdel/test-msdap:argparse'
-  container 'dsp_nf-msdap:latest'
+  container 'jbjespersen/dsp_nf-msdap:latest'
   publishDir params.outdir, mode: "copy", overwrite: true  
   input:
     path fastafiles
@@ -145,7 +145,7 @@ process runMSDAP {
 }
 
 process exportPlots{
-  container 'dsp_nf-msdap:latest'
+  container 'jbjespersen/dsp_nf-msdap:latest'
   input:
     path 'dataset.RData'
   output:
