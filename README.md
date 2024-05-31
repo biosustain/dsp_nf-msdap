@@ -1,7 +1,7 @@
 # dsp_nf-msdap
 Nextflow pipeline for MS-DAP, a downstream pipeline to generate statistical PDF reports for MS data
 
-This repository aims to serve as a headless launcher for msdap - https://github.com/ftwkoopmans/msdap 
+This repository aims to serve as a headless launcher for msdap - https://github.com/biosustain/msdap 
 
 This very early development verion is only compatible with Spectronaut output, but all formats supported by msdap will be compatible with the final version.
 
